@@ -7,6 +7,11 @@ const MealPage = () => {
   );
   const [meal, setMeals] = useState();
   const [show, setShow] = useState(false);
+  const setMealIndex = (alphabetLetter) => {
+    setUrl(
+      `https://www.themealdb.com/api/json/v1/1/search.php?f=${alphabetLetter}`
+    );
+  };
   useEffect(() => {
     fetch(url)
       .then((res) => {
@@ -16,7 +21,7 @@ const MealPage = () => {
         setMeals(data.meals);
         setShow(true);
       });
-  }, []);
+  }, [url]);
   return (
     <>
       <div className="main">
@@ -30,7 +35,7 @@ const MealPage = () => {
           {show ? <MealComponent data={meal} /> : "Not Found"}
         </div>
         <div className="indexContainer">
-          <MealIndexComponent />
+          <MealIndexComponent mealIndex={(alphabetLetter) => setMealIndex(alphabetLetter)}/>
         </div>
       </div>
     </>
