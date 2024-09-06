@@ -7,11 +7,21 @@ const MealPage = () => {
   );
   const [meal, setMeals] = useState();
   const [show, setShow] = useState(false);
+  const [search, setSearch] = useState();
+
   const setMealIndex = (alphabetLetter) => {
     setUrl(
       `https://www.themealdb.com/api/json/v1/1/search.php?f=${alphabetLetter}`
     );
   };
+  
+  const searchRecipe=(evt)=> {
+    if (evt.key === "Enter") {
+      setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`);
+    }
+  }
+
+
   useEffect(() => {
     fetch(url)
       .then((res) => {
@@ -29,7 +39,7 @@ const MealPage = () => {
           <h1> Search Meal Recipes</h1>
         </div>
         <div className="searchBox">
-          <input type="searchs" className="searchBar" />
+          <input type="searchs" className="searchBar" onChange={element=>setSearch(element.target.value)} onKeyDown={searchRecipe()} />
         </div>
         <div className="mealContainer">
           {show ? <MealComponent data={meal} /> : "Not Found"}
