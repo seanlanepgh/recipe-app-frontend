@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MealComponent from "./MealComponent";
 import MealIndexComponent from "./MealIndexComponent";
+import axios from "axios";
 const MealPage = () => {
   const [url, setUrl] = useState(
     "https://www.themealdb.com/api/json/v1/1/search.php?f=a"
@@ -23,12 +24,9 @@ const MealPage = () => {
 
 
   useEffect(() => {
-    fetch(url)
+    axios.get(url)
       .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setMeals(data.meals);
+        setMeals(res.data.meals);
         setShow(true);
       });
   }, [url]);
@@ -39,7 +37,7 @@ const MealPage = () => {
           <h1> Search Meal Recipes</h1>
         </div>
         <div className="searchBox">
-          <input type="searchs" className="searchBar" onChange={element=>setSearch(element.target.value)} onKeyDown={searchRecipe()} />
+          <input type="searchs" className="searchBar" onChange={element=>setSearch(element.target.value)} onKeyDown={searchRecipe} />
         </div>
         <div className="mealContainer">
           {show ? <MealComponent data={meal} /> : "Not Found"}
